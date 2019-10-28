@@ -29,7 +29,7 @@ class KittiDataset(data.Dataset):
         self.len = len(self.cropped_images)
         self.transform = transform
         self.return_idx = return_idx
-    
+
     def get_model_dict(self, idx):
         model_dict = {
             'model': str(idx),
@@ -201,12 +201,12 @@ class ImageDataset(data.Dataset):
         self.img_path = dataset_folder
         self.file_list = os.listdir(self.img_path)
         self.file_list = [
-            f for f in self.file_list 
+            f for f in self.file_list
             if os.path.splitext(f)[1] in IMAGE_EXTENSIONS
         ]
         self.len = len(self.file_list)
         self.transform = transforms.Compose([
-            transforms.Resize((224, 224)),
+            transforms.Resize((self.img_size, self.img_size)),
             transforms.ToTensor()
         ])
         self.return_idx = return_idx
@@ -221,13 +221,13 @@ class ImageDataset(data.Dataset):
         f_name = os.path.splitext(f_name)[0]
         return f_name
 
-    def get_model_dict(self, idx):  
+    def get_model_dict(self, idx):
         f_name = os.path.basename(self.file_list[idx])
         model_dict = {
             'model': f_name
         }
         return model_dict
-        
+
     def __len__(self):
         ''' Returns the length of the dataset.'''
         return self.len
